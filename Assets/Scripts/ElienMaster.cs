@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using System.Transactions;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -27,15 +28,17 @@ public class ElienMaster : MonoBehaviour
     private float moveTime = 0.005f;
 
     private float shootTimer = 3f;
-    private const float ShotTimer = 3f;
+    private const float ShotTime = 3f;
 
-    private const float Max_Move_Speed = 0.02f;
+    private const float Max_Move_Speed = 0.02f; 
 
     public GameObject motherShipPrefeb;
     private Vector3 motherShipSpawnPos = new Vector3(3.72f, 3.45f, 0);
-    private float motherShipTimer = 1f;
+    private float motherShipTimer = 2f;
     private const float MOTHERSHIP_MIN = 15f;
     private const float MOTHERSHIP_MAX = 15f;
+    private const float START_Y = 1.7F;
+    private bool ENTERİNG = true;
     
     void Start()
     {
@@ -48,23 +51,37 @@ public class ElienMaster : MonoBehaviour
     
     void Update()
     {
-        if (moveTimer <= 0)
+        // bakılacakkkkkk
+        if (ENTERİNG)
         {
-            MoveEnemies();
+            transform.Translate(Vector2.down * Time.deltaTime*10 );
+            
+            if (transform.position.y <= START_Y)
+            {
+                ENTERİNG = false;
+            }
         }
-
-        if (shootTimer <=0)
+        else
         {
-            Shot();
+            if (moveTimer <= 0)
+            {
+                MoveEnemies();
+            }
+
+            if (shootTimer <=0)
+            {
+                Shot();
+            }
+        
+            if (motherShipTimer <= 0)
+            {
+                SpawnMotherShip();
+            }
+            moveTimer -= Time.deltaTime;
+            shootTimer -= Time.deltaTime;
+            motherShipTimer -= Time.deltaTime;
         }
         
-        if (motherShipTimer <= 0)
-        {
-            SpawnMotherShip();
-        }
-        moveTimer -= Time.deltaTime;
-        shootTimer -= Time.deltaTime;
-        motherShipTimer -= Time.deltaTime;
     }
 
     public void MoveEnemies()
@@ -117,7 +134,7 @@ public class ElienMaster : MonoBehaviour
         Vector2 pos = allAlien[Random.Range(0, allAlien.Count)].transform.position;
         GameObject obj = _objectPo.GetPoolObjects();
         obj.transform.position = pos;
-        shootTimer = ShotTimer;
+        shootTimer = ShotTime;
     }
 
     private float GetMoveSpeed()

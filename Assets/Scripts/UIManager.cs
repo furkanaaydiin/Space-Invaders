@@ -58,7 +58,7 @@ public class UIManager : MonoBehaviour
         instance.scoreText.text = instance.score.ToString("000,000");
     }
 
-    public static void UpdateHealthScore()
+    public static void UpdateHighScore()
     {
         
     }
@@ -71,6 +71,6 @@ public class UIManager : MonoBehaviour
 
     public static void UpdateCoins()
     {
-        
+        instance.coinText.text = Inventory.CurrentCoins.ToString();
     }
 }

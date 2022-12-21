@@ -73,6 +73,32 @@ public void ShotButton()
         StartCoroutine(Shoot());
     }
 }
+ 
+public void AddHealth()
+{
+    if (shipState.currentHealt == shipState.maxHealt)
+    {
+        UIManager.UpdateScore(250);
+    }
+    else
+    {
+        shipState.currentHealt++;
+        UIManager.UpdateHealtBar(shipState.currentHealt);
+    }
+}
+
+ public void AddLife()
+ {
+     if (shipState.currentLifes == shipState.maxLifes)
+     {
+         UIManager.UpdateScore(1000);
+     }
+     else
+     {
+         shipState.currentLifes++;
+         UIManager.UpdateLives(shipState.currentLifes);
+     }
+ }
 
     private IEnumerator Shoot()
     {
@@ -105,7 +131,7 @@ public void ShotButton()
     public void TakeDamage()
     {
         shipState.currentHealt--;
-UIManager.UpdateHealtBar(shipState.currentHealt);
+         UIManager.UpdateHealtBar(shipState.currentHealt);
         if (shipState.currentHealt <= 0)
         {
             shipState.currentLifes--;
